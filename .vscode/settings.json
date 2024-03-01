@@ -1,0 +1,7 @@
+{
+    "java.project.referencedLibraries": [
+        "lib/**/*.jar",
+        "Time_Management_System/bin/slf4j-api-1.7.36.jar",
+        "Time_Management_System/bin/sqlite-jdbc-3.45.1.0.jar"
+    ]
+}
