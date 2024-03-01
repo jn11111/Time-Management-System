@@ -6,12 +6,10 @@ CREATE TABLE employees (
     email Varchar(55),
     employmentDate DATE DEFAULT CURRENT_DATE,
     position Varchar(128),
-    adminAccess TINYINT DEFAULT 0
-    );
+    adminAccess TINYINT DEFAULT 0);
 create table getStatus (
 	statusID INTEGER PRIMARY KEY AUTOINCREMENT,
-	status varchar(25)
-),
+	status varchar(25));
 create table timestamps (
 	TimeStampID INTEGER Primary key AUTOINCREMENT,
     employeeID int,
@@ -20,8 +18,7 @@ create table timestamps (
     TimeStampDate date,
     statusID INTEGER,
     foreign key (employeeID) references employees(employeeID),
-    foreign key (statusID) references getStatus(statusID)
-);
+    foreign key (statusID) references getStatus(statusID));
 create table incomings(
 	incomingID INTEGER PRIMARY KEY AUTOINCREMENT,
     firstName Varchar(55),
@@ -30,5 +27,4 @@ create table incomings(
     reason TEXT,
     feedback TEXT,
     statusID INTEGER,
-    FOREIGN KEY (statusID) REFERENCES getStatus(statusID)
-);
+    FOREIGN KEY (statusID) REFERENCES getStatus(statusID));
