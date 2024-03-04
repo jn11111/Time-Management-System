@@ -23,6 +23,7 @@ create table incomings(
 	incomingID INTEGER PRIMARY KEY AUTOINCREMENT,
     firstName Varchar(55),
     lastName Varchar(55),
+    email Varchar(55),
     applicationDate DATE DEFAULT CURRENT_DATE,
     reason TEXT,
     feedback TEXT,

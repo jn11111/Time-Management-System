@@ -1,0 +1,41 @@
+import java.awt.CardLayout;
+import java.awt.Color;
+import java.awt.event.ActionListener;
+
+import javax.swing.JFrame;
+
+public class myJFrame_hub extends JFrame {
+    myJMenuBar_Hub myJMenuBar = new myJMenuBar_Hub();
+    CardLayout layout = new CardLayout();
+    Login login;
+    Apply apply;
+    myJPanel myJPanel;
+
+    myJFrame_hub() {
+        // setting the Frame configuration in myJFrame constructor
+        this.setTitle("Time Management System");
+        this.setBackground(Color.gray);
+        this.setSize(680, 720);
+        this.setLocationRelativeTo(null);
+        this.setResizable(false);
+
+        myJPanel = new myJPanel();
+        myJPanel.setLayout(layout);
+        this.getContentPane().add(myJPanel);
+
+        myJPanel.add(login = new Login(this), "Login");
+        myJPanel.add(apply = new Apply(), "Apply");
+
+        this.setJMenuBar(myJMenuBar);
+
+        myJMenuBar.addActionListenerToLogin(e -> layout.show(myJPanel, "Login"));
+        myJMenuBar.addActionListenerToApply(e -> layout.show(myJPanel, "Apply"));
+        myJMenuBar.addActionListenerToExit(e -> System.exit(0));
+        // the frame sometimes don't show without setting it visible.
+        this.setVisible(true);
+    }
+
+    public void newFrame(ActionListener e) {
+        this.dispose();
+    }
+}
