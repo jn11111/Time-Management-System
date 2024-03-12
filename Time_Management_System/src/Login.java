@@ -8,6 +8,7 @@ public class Login extends JPanel {
     myJButton login;
     myJFrame_hub myJFrame_hub;
     myJFrame_main myJFrame_main;
+    String name, email;
 
     Login(myJFrame_hub hub) {
         this.myJFrame_hub = hub;
@@ -30,12 +31,12 @@ public class Login extends JPanel {
         c.gridwidth = 1;
 
         this.add(firstName, c);
-        myJLabel email = new myJLabel("Email");
+        myJLabel emailAdd = new myJLabel("Email");
         c.gridx = 0;
         c.gridy = 1;
         c.gridwidth = 1;
 
-        this.add(email, c);
+        this.add(emailAdd, c);
 
         // instantiating custom textfields. adding them to the container with
         // corresponding constraint for the layout
@@ -45,19 +46,33 @@ public class Login extends JPanel {
         c.gridwidth = 2;
 
         this.add(firstName_tf, c);
-        myJTextField lastName_tf = new myJTextField();
+        myJTextField email_tf = new myJTextField();
         c.gridx = 1;
         c.gridy = 1;
         c.gridwidth = 2;
 
-        this.add(lastName_tf, c);
+        this.add(email_tf, c);
 
         // instantiating custom button. adding them to the container with
         // corresponding constraint for the layout
         login = new myJButton("Login");
         login.addActionListener((e) -> {
-            myJFrame_hub.dispose();
-            myJFrame_main = new myJFrame_main();
+            access myAccess = access.Non_Admin;
+            name = firstName_tf.getText();
+            email = email_tf.getText();
+            database database = new database();
+            int acc_status = database.getLoginStatus(name, email);
+            if (acc_status >= 1) {
+                if (acc_status > 1) {
+                    myAccess = access.Admin;
+                }
+                System.out.println(name + " " + email);
+                myJFrame_hub.dispose();
+                myJFrame_main = new myJFrame_main(myAccess, database.getTarget(), name, email, database.getCurrentID());
+                System.out.println("ID: " + database.getCurrentID());
+            } else {
+                System.out.println("invalid");
+            }
         });
         c.gridx = 2;
         c.gridy = 2;

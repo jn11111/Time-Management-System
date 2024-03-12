@@ -1,21 +1,24 @@
+import java.awt.Color;
+
 import javax.swing.BoxLayout;
 import javax.swing.JScrollPane;
 import javax.swing.table.DefaultTableModel;
 
-public class applicant extends myJPanel {
-    myJTable myJTable;
+public class timeStamps extends myJPanel {
     adminActionPanel adminActionPanel;
+    myJTable myJTable;
     DefaultTableModel model;
+    Object status;
     Object firstColumnValue = 0;
     database database;
-    Object fname, lname, email, status;
 
-    applicant() {
-        adminActionPanel = new adminActionPanel();
-        model = new database().getDataForAdmin("incomings");
+    timeStamps() {
         database = new database();
+        model = new database().getDataForAdmin("timestamps");
+        adminActionPanel = new adminActionPanel();
         JScrollPane jScrollPane = new JScrollPane(this.myJTable = new myJTable(model));
         this.setPreferredSize(getPreferredSize());
+        this.setBackground(Color.gray);
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.add(jScrollPane);
         myJTable.getSelectionModel().addListSelectionListener(e -> {
@@ -27,41 +30,32 @@ public class applicant extends myJPanel {
                     // Get the value of the cell in the first column of the selected row
                     this.firstColumnValue = myJTable.getValueAt(selectedRow, 0);
                     this.status = myJTable.getValueAt(selectedRow, 5);
-                    this.fname = myJTable.getValueAt(selectedRow, 1);
-                    this.lname = myJTable.getValueAt(selectedRow, 2);
-                    this.email = myJTable.getValueAt(selectedRow, 3);
                     // Do something with the first column value (e.g., print it)
                     System.out.println("First column value: " + firstColumnValue + "::" + status + "::");
                     if (status.toString().contains("PENDING")) {
                         System.out.println("ee");
                         btnEnabler(true);
-
                     } else {
                         btnEnabler(false);
-
                     }
                 }
             }
         });
         adminActionPanel.AcceptBTN((e) -> {
             System.out.println("ACCEPT");
-            System.out.println(this.fname.toString() + this.lname.toString() + this.email.toString());
-            database.changeIncomingStatus((int) this.firstColumnValue, 2, this.fname.toString(),
-                    this.lname.toString(), this.email.toString());
-            model = new database().getDataForAdmin("incomings");
+            database.changeTimestampsStatus((int) firstColumnValue, 2);
+            model = new database().getDataForAdmin("timestamps");
             btnEnabler(false);
             myJTable.setModel(model);
         });
         adminActionPanel.DenyBTN((e) -> {
-            System.out.println("DENY " + this.firstColumnValue);
-            database.changeIncomingStatus((int) this.firstColumnValue, 3, this.fname.toString(),
-                    this.lname.toString(), this.email.toString());
-            model = new database().getDataForAdmin("incomings");
+            database.changeTimestampsStatus((int) firstColumnValue, 3);
+            model = new database().getDataForAdmin("timestamps");
             myJTable.setModel(model);
             btnEnabler(false);
+            System.out.println("DENY");
         });
         this.add(adminActionPanel);
-        this.repaint();
     }
 
     public void btnEnabler(boolean a) {

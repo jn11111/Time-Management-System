@@ -8,7 +8,7 @@ public class myJFrame_hub extends JFrame {
     myJMenuBar_Hub myJMenuBar = new myJMenuBar_Hub();
     CardLayout layout = new CardLayout();
     Login login;
-    Apply apply;
+    newApplication apply;
     myJPanel myJPanel;
 
     myJFrame_hub() {
@@ -18,13 +18,14 @@ public class myJFrame_hub extends JFrame {
         this.setSize(680, 720);
         this.setLocationRelativeTo(null);
         this.setResizable(false);
+        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 
         myJPanel = new myJPanel();
         myJPanel.setLayout(layout);
         this.getContentPane().add(myJPanel);
 
         myJPanel.add(login = new Login(this), "Login");
-        myJPanel.add(apply = new Apply(), "Apply");
+        myJPanel.add(apply = new newApplication(), "Apply");
 
         this.setJMenuBar(myJMenuBar);
 

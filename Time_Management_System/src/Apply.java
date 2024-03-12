@@ -1,13 +1,20 @@
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 
+import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
 import java.awt.Insets;
 
 public class Apply extends JPanel {
-    Apply() {
+    JTextArea reason_ta;
+    myJTextField firstName_tf;
+    myJTextField lastName_tf;
+    myJTextField email_tf;
+    myJButton btn;
+
+    Apply(String buttonName) {
         // set layout
         GridBagLayout layout = new GridBagLayout();
         this.setLayout(layout);
@@ -47,26 +54,26 @@ public class Apply extends JPanel {
 
         // instantiating custom textfields. adding them to the container with
         // corresponding constraint for the layout
-        myJTextField firstName_tf = new myJTextField();
+        firstName_tf = new myJTextField();
         c.gridx = 1;
         c.gridy = 0;
         c.gridwidth = 2;
 
         this.add(firstName_tf, c);
-        myJTextField lastName_tf = new myJTextField();
+        lastName_tf = new myJTextField();
         c.gridx = 1;
         c.gridy = 1;
         c.gridwidth = 2;
 
         this.add(lastName_tf, c);
-        myJTextField email_tf = new myJTextField();
+        email_tf = new myJTextField();
         c.gridx = 1;
         c.gridy = 2;
         c.gridwidth = 2;
 
         this.add(email_tf, c);
 
-        JTextArea reason_ta = new JTextArea(10, 14);
+        reason_ta = new JTextArea(10, 14);
         reason_ta.setLineWrap(true);
         c.gridx = 1;
         c.gridy = 3;
@@ -74,11 +81,31 @@ public class Apply extends JPanel {
         this.add(reason_ta, c);
         // instantiating custom button. adding them to the container with
         // corresponding constraint for the layout
-        myJButton login = new myJButton("Apply");
+        btn = new myJButton(buttonName);
         c.gridx = 2;
         c.gridy = 5;
         c.gridwidth = 1;
-        this.add(login, c);
+        this.add(btn, c);
         this.setVisible(true);
+    }
+
+    public String getFN() {
+        return firstName_tf.getText();
+    }
+
+    public String getLN() {
+        return lastName_tf.getText();
+    }
+
+    public String getEmail() {
+        return email_tf.getText();
+    }
+
+    public String getReason() {
+        return reason_ta.getText();
+    }
+
+    public JButton getBTN() {
+        return btn;
     }
 }

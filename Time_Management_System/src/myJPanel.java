@@ -1,12 +1,13 @@
 import java.awt.Color;
+import java.awt.Dimension;
 
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 
 public class myJPanel extends JPanel {
     myJPanel() {
-        this.setBackground(Color.DARK_GRAY);
+        this.setBackground(Color.GRAY);
         this.setBorder(BorderFactory.createEtchedBorder());
-        this.setPreferredSize(getPreferredSize());
+        this.setPreferredSize(new Dimension(500, 280));
     }
 }

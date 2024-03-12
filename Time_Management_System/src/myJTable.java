@@ -5,27 +5,20 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 public class myJTable extends JTable {
-    String[][] data = {
-            { "Kundan Kumar Jha", "4031", "CSE" },
-            { "Anand Jha", "6014", "IT" }
-    };
-
+    DefaultTableModel model;
     // Column Names
 
-    myJTable() {
+    myJTable(DefaultTableModel model) {
         this.setGridColor(Color.BLUE);
-        // this.setRowHeight(35);
-        this.setPreferredSize(preferredViewportSize);
+        this.model = new DefaultTableModel();
+        this.model = model;
+        this.setAutoCreateColumnsFromModel(true);
         this.setBorder(BorderFactory.createDashedBorder(gridColor, 1, 10, .3f, true));
+        this.setModel(this.model);
+        this.setRowHeight(50);
+        // this.setEnabled(false);
+        // this.setRowSelectionAllowed(true); // Allow row selection by mouse
+        // this.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
-        DefaultTableModel model = new DefaultTableModel(
-                new Object[][] {}, // Initial data (none)
-                new String[] { "Name", "Roll Number", "Department" });
-        this.setModel(model);
-
-        Object[] row1 = { "Kundan Kumar Jha", "4031", "CSE" };
-        model.addRow(row1);
-        Object[] row2 = { "Anand Jha", "6014", "IT" };
-        model.addRow(row2);
     }
 }
