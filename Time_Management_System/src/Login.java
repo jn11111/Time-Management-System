@@ -9,6 +9,7 @@ public class Login extends JPanel {
     myJFrame_hub myJFrame_hub;
     myJFrame_main myJFrame_main;
     String name, email;
+    myJOptionPane a;
 
     Login(myJFrame_hub hub) {
         this.myJFrame_hub = hub;
@@ -71,7 +72,14 @@ public class Login extends JPanel {
                 myJFrame_main = new myJFrame_main(myAccess, database.getTarget(), name, email, database.getCurrentID());
                 System.out.println("ID: " + database.getCurrentID());
             } else {
-                System.out.println("invalid");
+                if (name.isEmpty() || email.isEmpty()) {
+                    a = new myJOptionPane("Please enter credentials", "Invalid", -1, 0);
+
+                } else {
+                    a = new myJOptionPane("Login Error", "Account not found", -1, 1);
+                    firstName_tf.setText("");
+                    email_tf.setText("");
+                }
             }
         });
         c.gridx = 2;

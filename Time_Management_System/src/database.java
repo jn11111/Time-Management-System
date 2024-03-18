@@ -386,12 +386,50 @@ public class database {
         }
     }
 
+    public boolean checkIncoming(String fname, String email) {
+        Boolean getDuplicate = false;
+        try (Connection connection = DriverManager.getConnection(url);
+                PreparedStatement statement = connection
+                        .prepareStatement("SELECT * FROM INCOMINGS WHERE firstname = '" + fname + "' AND email = '"
+                                + email + "';");) {
+            if (connection != null) {
+                ResultSet rs = statement.executeQuery();
+                if (rs.next()) {
+                    getDuplicate = true;
+                } else {
+                    getDuplicate = false;
+                }
+                System.out.println(getDuplicate);
+                rs.close();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if (!getDuplicate) {
+            try (Connection connection = DriverManager.getConnection(url);
+                    PreparedStatement statement = connection.prepareStatement(
+                            "SELECT * FROM EMPLOYEES WHERE firstname = '" + fname + "' AND email = '" + email
+                                    + "';");) {
+                if (connection != null) {
+                    ResultSet rs = statement.executeQuery();
+                    if (rs.next()) {
+                        getDuplicate = true;
+                    }
+                    System.out.println(getDuplicate);
+                    rs.close();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return getDuplicate;
+    }
+
     public String getTarget() {
         return t.name();
     }
 
     public int getCurrentID() {
-        System.out.println("FROM DATABASE " + this.id);
         return this.id;
     }
 }

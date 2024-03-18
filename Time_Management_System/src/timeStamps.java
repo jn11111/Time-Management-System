@@ -11,6 +11,7 @@ public class timeStamps extends myJPanel {
     Object status;
     Object firstColumnValue = 0;
     database database;
+    myJOptionPane optionPane;
 
     timeStamps() {
         database = new database();
@@ -42,18 +43,24 @@ public class timeStamps extends myJPanel {
             }
         });
         adminActionPanel.AcceptBTN((e) -> {
-            System.out.println("ACCEPT");
-            database.changeTimestampsStatus((int) firstColumnValue, 2);
-            model = new database().getDataForAdmin("timestamps");
-            btnEnabler(false);
-            myJTable.setModel(model);
+            optionPane = new myJOptionPane("Are you sure?", "APPROVE?", 0, 1);
+            if (optionPane.getResult() == 0) {
+                System.out.println("ACCEPT");
+                database.changeTimestampsStatus((int) firstColumnValue, 2);
+                model = new database().getDataForAdmin("timestamps");
+                btnEnabler(false);
+                myJTable.setModel(model);
+            }
         });
         adminActionPanel.DenyBTN((e) -> {
-            database.changeTimestampsStatus((int) firstColumnValue, 3);
-            model = new database().getDataForAdmin("timestamps");
-            myJTable.setModel(model);
-            btnEnabler(false);
-            System.out.println("DENY");
+            optionPane = new myJOptionPane("Are you sure?", "DENY?", 0, 1);
+            if (optionPane.getResult() == 0) {
+                database.changeTimestampsStatus((int) firstColumnValue, 3);
+                model = new database().getDataForAdmin("timestamps");
+                myJTable.setModel(model);
+                btnEnabler(false);
+                System.out.println("DENY");
+            }
         });
         this.add(adminActionPanel);
     }

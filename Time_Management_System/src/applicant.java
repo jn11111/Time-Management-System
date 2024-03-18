@@ -9,6 +9,7 @@ public class applicant extends myJPanel {
     Object firstColumnValue = 0;
     database database;
     Object fname, lname, email, status;
+    myJOptionPane optionPane;
 
     applicant() {
         adminActionPanel = new adminActionPanel();
@@ -44,21 +45,27 @@ public class applicant extends myJPanel {
             }
         });
         adminActionPanel.AcceptBTN((e) -> {
-            System.out.println("ACCEPT");
-            System.out.println(this.fname.toString() + this.lname.toString() + this.email.toString());
-            database.changeIncomingStatus((int) this.firstColumnValue, 2, this.fname.toString(),
-                    this.lname.toString(), this.email.toString());
-            model = new database().getDataForAdmin("incomings");
-            btnEnabler(false);
-            myJTable.setModel(model);
+            optionPane = new myJOptionPane("Are you sure?", "APPROVE?", 0, 1);
+            if (optionPane.getResult() == 0) {
+                System.out.println("ACCEPT");
+                System.out.println(this.fname.toString() + this.lname.toString() + this.email.toString());
+                database.changeIncomingStatus((int) this.firstColumnValue, 2, this.fname.toString(),
+                        this.lname.toString(), this.email.toString());
+                model = new database().getDataForAdmin("incomings");
+                btnEnabler(false);
+                myJTable.setModel(model);
+            }
         });
         adminActionPanel.DenyBTN((e) -> {
-            System.out.println("DENY " + this.firstColumnValue);
-            database.changeIncomingStatus((int) this.firstColumnValue, 3, this.fname.toString(),
-                    this.lname.toString(), this.email.toString());
-            model = new database().getDataForAdmin("incomings");
-            myJTable.setModel(model);
-            btnEnabler(false);
+            optionPane = new myJOptionPane("Are you sure?", "DENY?", 0, 1);
+            if (optionPane.getResult() == 0) {
+                System.out.println("DENY " + this.firstColumnValue);
+                database.changeIncomingStatus((int) this.firstColumnValue, 3, this.fname.toString(),
+                        this.lname.toString(), this.email.toString());
+                model = new database().getDataForAdmin("incomings");
+                myJTable.setModel(model);
+                btnEnabler(false);
+            }
         });
         this.add(adminActionPanel);
         this.repaint();

@@ -10,6 +10,7 @@ public class myJFrame_hub extends JFrame {
     Login login;
     newApplication apply;
     myJPanel myJPanel;
+    myJOptionPane optionPane;
 
     myJFrame_hub() {
         // setting the Frame configuration in myJFrame constructor
@@ -31,7 +32,13 @@ public class myJFrame_hub extends JFrame {
 
         myJMenuBar.addActionListenerToLogin(e -> layout.show(myJPanel, "Login"));
         myJMenuBar.addActionListenerToApply(e -> layout.show(myJPanel, "Apply"));
-        myJMenuBar.addActionListenerToExit(e -> System.exit(0));
+        myJMenuBar.addActionListenerToExit((e) -> {
+            optionPane = new myJOptionPane("Are you sure?", "Exit", 0, 3);
+            int getOptionPaneResult = optionPane.getResult();
+            if (getOptionPaneResult == 0) {
+                System.exit(0);
+            }
+        });
         // the frame sometimes don't show without setting it visible.
         this.setVisible(true);
     }

@@ -14,7 +14,7 @@ public class myJFrame_main extends JFrame {
     String name, email, target;
     int id;
     myJFrame_hub myJFrame_hub;
-
+    myJOptionPane optionPane;
     employee_entry employee_entry;
 
     myJFrame_main(access Myaccess, String target, String name, String email, int id) {
@@ -29,10 +29,8 @@ public class myJFrame_main extends JFrame {
         this.setResizable(false);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         if (Myaccess == access.Admin) {
-            System.out.println(Myaccess);
             adminAction();
         } else {
-            System.out.println(Myaccess);
             nonAdminAction();
         }
 
@@ -53,8 +51,7 @@ public class myJFrame_main extends JFrame {
         myJMenuBar_Main.addActionListenerToEmployee(e -> layout.show(myJPanel, "Employee"));
         myJMenuBar_Main.addActionListenerToApplicant(e -> layout.show(myJPanel, "Applicant"));
         myJMenuBar_Main.addActionListenerToLogout((e) -> {
-            this.dispose();
-            myJFrame_hub = new myJFrame_hub();
+            promptLogout();
         });
 
     }
@@ -62,9 +59,17 @@ public class myJFrame_main extends JFrame {
     private void nonAdminAction() {
         this.setJMenuBar(myJMenuBar_NonAdmin);
         myJMenuBar_NonAdmin.addActionListenerToLogout((e) -> {
-            this.dispose();
-            myJFrame_hub = new myJFrame_hub();
+            promptLogout();
         });
         this.add(employee_entry = new employee_entry(target, id));
+    }
+
+    private void promptLogout() {
+        optionPane = new myJOptionPane("Are you sure?", "Logout", 0, 3);
+        int getOptionPaneResult = optionPane.getResult();
+        if (getOptionPaneResult == 0) {
+            this.dispose();
+            myJFrame_hub = new myJFrame_hub();
+        }
     }
 }

@@ -17,6 +17,7 @@ public class employee_entry extends myJPanel {
     database database = new database();
     JScrollPane jScrollPane;
     Object firstColumnValue = -1;
+    myJOptionPane optionPane;
 
     employee_entry(String target, int id) {
         this.target = target;
@@ -60,24 +61,31 @@ public class employee_entry extends myJPanel {
         myJPanel.add(timeOut);
         timeIn.setEnabled(database.TimeIN(this.id));
         timeIn.addActionListener((e) -> {
-            database.InsertTimeIN(id);
-            timeIn.setEnabled(false);
-            model = database.getDataForTimeStamps(target, this.id);
-            myJTable.setModel(model);
-            myJTable.repaint();
+            optionPane = new myJOptionPane("Are you sure?", "TIME IN?", 0, 1);
+            if (optionPane.getResult() == 0) {
+                database.InsertTimeIN(id);
+                timeIn.setEnabled(false);
+                model = database.getDataForTimeStamps(target, this.id);
+                myJTable.setModel(model);
+                myJTable.repaint();
+            }
         });
         timeOut.addActionListener((e) -> {
             System.out.println(((int) this.firstColumnValue));
             if (firstColumnValue.toString() != "-1") {
                 if (database.TimeOut(this.id, ((int) this.firstColumnValue)) != true) {
-                    database.InsertTimeOut(((int) this.firstColumnValue));
-                    model = database.getDataForTimeStamps(target, this.id);
-                    myJTable.setModel(model);
-                    myJTable.repaint();
+                    optionPane = new myJOptionPane("Are you sure?", "TIME OUT?", 0, 1);
+                    if (optionPane.getResult() == 0) {
+                        database.InsertTimeOut(((int) this.firstColumnValue));
+                        model = database.getDataForTimeStamps(target, this.id);
+                        myJTable.setModel(model);
+                        myJTable.repaint();
+                    }
                 } else {
-                    System.out.println("already timed");
+                    optionPane = new myJOptionPane("ALREADY TIMED", "ERROR!", 2, 0);
                 }
             }
+
         });
         return myJPanel;
     }
@@ -89,24 +97,27 @@ public class employee_entry extends myJPanel {
         myJButton edit = new myJButton("Edit");
         Apply apply = new Apply("Update");
         edit.addActionListener((e) -> {
-            JFrame myFrame = new JFrame();
-            myFrame.setContentPane(apply);
-            System.out.println("eaeae");
-            apply.getBTN().addActionListener((a) -> {
-                fn = apply.getFN();
-                ln = apply.getLN();
-                email = apply.getEmail();
-                reason = apply.getReason();
-                System.out.println(fn + ln + email + reason + "eh");
-                database.updateApplication(fn, ln, email, reason, this.id);
-                model = database.getDataForApplication(target, this.id);
-                myJTable.setModel(model);
-                myJTable.repaint();
-                myFrame.dispose();
-            });
-            myFrame.pack();
-            myFrame.setLocationRelativeTo(null);
-            myFrame.setVisible(true);
+            optionPane = new myJOptionPane("Are you sure?", "EDIT APPLICATION?", 0, 1);
+            if (optionPane.getResult() == 0) {
+                JFrame myFrame = new JFrame();
+                myFrame.setContentPane(apply);
+                System.out.println("eaeae");
+                apply.getBTN().addActionListener((a) -> {
+                    fn = apply.getFN();
+                    ln = apply.getLN();
+                    email = apply.getEmail();
+                    reason = apply.getReason();
+                    System.out.println(fn + ln + email + reason + "eh");
+                    database.updateApplication(fn, ln, email, reason, this.id);
+                    model = database.getDataForApplication(target, this.id);
+                    myJTable.setModel(model);
+                    myJTable.repaint();
+                    myFrame.dispose();
+                });
+                myFrame.pack();
+                myFrame.setLocationRelativeTo(null);
+                myFrame.setVisible(true);
+            }
         });
         myJPanel.add(edit);
         return myJPanel;
